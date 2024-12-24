@@ -19,7 +19,7 @@ Add these dependencies to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-agent-twitter-client = "0.1.0"
+agent-twitter-client = "0.1.1"
 tokio = { version = "1.0", features = ["full"] }
 dotenv = "0.15"
 ```
