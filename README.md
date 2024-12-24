@@ -36,7 +36,7 @@ use dotenv::dotenv;
 use std::env;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<()> {
     dotenv().ok();
     let mut scraper = Scraper::new().await?;
     
