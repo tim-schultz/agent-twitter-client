@@ -8,6 +8,7 @@ use crate::search::{fetch_search_tweets, SearchMode};
 use crate::timeline::v1::{QueryProfilesResponse, QueryTweetsResponse};
 use crate::timeline::v2::QueryTweetsResponse as V2QueryTweetsResponse;
 use serde_json::Value;
+use crate::messages::DirectMessagesResponse;
 
 pub struct Scraper {
     pub twitter_client: TwitterClient,
@@ -215,5 +216,21 @@ impl Scraper {
         cursor: Option<String>,
     ) -> Result<V2QueryTweetsResponse> {
         crate::tweets::fetch_user_tweets(&self.twitter_client, user_id, count, cursor.as_deref()).await
+    }
+
+    pub async fn get_direct_message_conversations(
+        &self,
+        screen_name: &str,
+        cursor: Option<&str>,
+    ) -> Result<DirectMessagesResponse> {
+        crate::messages::get_direct_message_conversations(&self.twitter_client, screen_name, cursor).await
+    }
+
+    pub async fn send_direct_message(
+        &self,
+        conversation_id: &str,
+        text: &str,
+    ) -> Result<Value> {
+        crate::messages::send_direct_message(&self.twitter_client, conversation_id, text).await
     }
 }

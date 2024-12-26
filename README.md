@@ -97,6 +97,46 @@ async fn main() -> Result<()> {
 }
 ```
 
+# Get direct message conversations
+
+```rust
+use agent_twitter_client::scraper::Scraper;
+use agent_twitter_client::error::Result;
+use dotenv::dotenv;
+use std::io::Write;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    dotenv().ok();
+    let mut scraper = Scraper::new().await?;
+    let cookie_string = std::env::var("TWITTER_COOKIE_STRING")
+        .expect("TWITTER_COOKIE_STRING environment variable not set");
+    scraper.set_from_cookie_string(&cookie_string).await?;
+    let home_timeline = scraper.get_direct_message_conversations("chakaboommm", None).await?;
+    println!("Direct message conversations: {:?}", home_timeline);
+}
+```
+# Send direct message
+
+```rust
+use agent_twitter_client::scraper::Scraper;
+use agent_twitter_client::error::Result;
+use dotenv::dotenv; 
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    dotenv().ok();
+    let mut scraper = Scraper::new().await?;
+    let cookie_string = std::env::var("TWITTER_COOKIE_STRING")
+        .expect("TWITTER_COOKIE_STRING environment variable not set");
+    scraper.set_from_cookie_string(&cookie_string).await?;
+    let conversation_id = "1234567890";
+    scraper.send_direct_message(conversation_id, "Hello, world!").await?;
+    Ok(())
+}
+```
+
+
 ### Search Operations
 
 ```rust
